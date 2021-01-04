@@ -20,6 +20,9 @@ public class Product implements Serializable {
 	private String description;
 	private String imageUri;
 	
+	public Product() {
+		
+	}
 	public Product(Long id, String name, Double price, String description, String imageUri) {
 		super();
 		this.id = id;
