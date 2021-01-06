@@ -1,12 +1,14 @@
+import ProductList from './ProductList';
 import StepsHeader from './StepsHeader';
 import './style.css';
 
 const Orders = () => {
     return(
-        <>
+        <div className="orders-container">
             <StepsHeader/>
-            <h1>Ordes</h1>
-        </>
+            <ProductList/>
+        </div>
+            
     );
 }
 
