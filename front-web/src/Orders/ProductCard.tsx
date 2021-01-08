@@ -1,21 +1,31 @@
-import {ReactComponent as Pizza} from './pizza.svg'
+import { Product } from './types';
 
-const ProductCard = () => {
+type Props = {
+    product:Product;
+}
+
+const formatPrice = (price:number) => {
+    const formatter = new Intl.NumberFormat('pt-BR',{
+        style:'currency',
+        currency:'BRL',
+        maximumFractionDigits:2
+    });
+    return formatter.format(price);
+}
+
+const ProductCard = ({product}:Props) => {
     return(
        <div className="order-card-container">
            <h3 className="order-card-title">
-                Pizza Calabresa
+                {product.name}
            </h3>
-            <Pizza className="order-card-image"/>
+            <img src={product.imageUri} alt={product.name} className="order-card-image" />
             <h3 className="order-card-price">
-                R$ 35.90
+                 {formatPrice(product.price)}
             </h3>
-            <div className="order=card-description">
+            <div className="order-card-description">
                 <h3>Descrição</h3>
-                <p>Descrição Uma deliciosa combinação 
-                    Linguiça Calabresa, rodelas de cebolas f
-                    rescas, azeitonas pretas, mussarela, polpa
-                    de tomate, orégano e massa especial.
+                <p>{product.description}
                 </p>
             </div>
        </div> 
