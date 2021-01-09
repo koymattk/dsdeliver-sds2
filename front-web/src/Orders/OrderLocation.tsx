@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import AsyncSelect from 'react-select/async';
 import { fetchLocalMapBox } from '../api';
+import { OrderLocationdata } from './types';
 
 const initialPosition = {
     lat: -10.853308908352348,
@@ -16,8 +17,13 @@ type Place = {
         lng:number;
     }
 }
-const OrderLocation = () => { 
-    const[adress, setAddress] = useState<Place>({position:initialPosition});
+
+type Props = {
+    onChangeLocation: (location: OrderLocationdata) => void;
+}
+const OrderLocation = ({ onChangeLocation }:Props) => { 
+    const[address, setAddress] = useState<Place>({position:initialPosition});
+    
     const loadOptions = async (inputValue: string, callback: (places: Place[]) => void) => {
         const response = await fetchLocalMapBox(inputValue);
       
@@ -37,11 +43,11 @@ const OrderLocation = () => {
       
       const handleChangeSelect = (place: Place) => {
         setAddress(place);
-       // onChangeLocation({
-        //  latitude: place.position.lat,
-        //  longitude: place.position.lng,
-       //   address: place.label!
-      //+  });
+        onChangeLocation({
+            latitude: place.position.lat,
+            longitude: place.position.lng,
+            address: place.label!
+            });
       };
 
 
@@ -59,14 +65,14 @@ const OrderLocation = () => {
                         loadOptions={loadOptions}
                     />
                 </div>
-                <MapContainer center={adress.position} zoom={17} scrollWheelZoom={false} key={adress.position.lat}>
+                <MapContainer center={address.position} zoom={15} scrollWheelZoom={false} key={address.position.lat}>
                     <TileLayer
                         attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                     />
-                    <Marker position={adress.position}>
+                    <Marker position={address.position}>
                         <Popup>
-                            A pretty CSS3 popup. <br /> Easily customizable.
+                           {address.label} 
                         </Popup>
                     </Marker>
                 </MapContainer>
